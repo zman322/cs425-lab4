@@ -116,8 +116,17 @@ public class Rates {
              *
              * *** INSERT YOUR CODE HERE ***
              */
+            String[] header = iterator.next();
             
+            while(iterator.hasNext()) {
+                row = iterator.next();
+                rates.put(row[1], Double.parseDouble(row[2]));
+                
+                
+            }
             json.put("rates", rates);
+            json.put("base", "USD");
+            json.put("date", "2019-09-30");
             
             /* Parse top-level container to a JSON string */
             
@@ -127,7 +136,7 @@ public class Rates {
         catch (Exception e) { System.err.println( e.toString() ); }
         
         /* Return JSON string */
-        
+        System.err.println(results);
         return (results.trim());
         
     }
