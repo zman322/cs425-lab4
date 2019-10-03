@@ -1,3 +1,5 @@
+/* global ratekey */
+
 var Lab4 = ( function() {
 
     return {
@@ -17,8 +19,24 @@ var Lab4 = ( function() {
              */
 
             // INSERT YOUR CODE HERE
+            var userInput = parseInt( $("#input").val());
             
+            var rateList = rates['rates'];
             
+            var rateText = "";
+            
+            var date = "";
+            
+            for (var key in rateList) {
+                
+                var rateKey = (rateList[key] * userInput);
+                rateKey = Number.parseFloat(rateKey).toFixed(2);
+                rateText += key +  ": " + ratekey + '<br>';
+            }
+            
+            date += '<br>' + "Based on " + rates['date'] + " Exchange Rates";
+            $('#output').html(rateText + date);
+               
 
         },
         
