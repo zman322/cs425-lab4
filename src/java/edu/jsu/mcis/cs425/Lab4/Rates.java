@@ -140,5 +140,15 @@ public class Rates {
         return (results.trim());
         
     }
+    
+    public static String getRatesAsJson(String code){
+        
+        
+        
+        
+        
+        
+    }
+    
 
 }

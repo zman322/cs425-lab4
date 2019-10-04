@@ -38,7 +38,7 @@ public class Latest extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println(Rates.getRatesAsJson(Rates.getRates(path) ));
+            out.println(Rates.getRatesAsJson( request.getParameter("code")) );
             
         }
     }
