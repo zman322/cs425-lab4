@@ -23,15 +23,15 @@ var Lab4 = ( function() {
             
             var rateList = rates['rates'];
             
-            var rateText = "";
+            var rateText = " ";
             
-            var date = "";
+            var date = " ";
             
             for (var key in rateList) {
                 
                 var rateKey = (rateList[key] * userInput);
                 rateKey = Number.parseFloat(rateKey).toFixed(2);
-                rateText += key +  ": " + ratekey + '<br>';
+                rateText += key +  ": " + rateKey + '<br>';
             }
             
             date += '<br>' + "Based on " + rates['date'] + " Exchange Rates";
