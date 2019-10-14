@@ -8,15 +8,13 @@ import java.util.Iterator;
 import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.ServletException;
 import javax.sql.DataSource;
 
 public class Rates {
@@ -151,14 +149,102 @@ public class Rates {
         
     }
     
-    public static String getRatesAsJson(String code){
+    public static String getRatesAsJson(String code) throws NamingException, SQLException{
+        
+        Context envContext = null, initContext = null;
+        DataSource ds = null;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        
+        JSONObject json = new JSONObject();
+        JSONObject rates = new JSONObject();
+        String query;
+        String results = "";
+        boolean hasResults;
+        
+        try {
+            
+            envContext = new InitialContext();
+            initContext  = (Context)envContext.lookup("java:/comp/env");
+            ds = (DataSource)initContext.lookup("jdbc/db_pool");
+            connection = ds.getConnection();
+            
+            if (code == null)
+                query = "SELECT * FROM rates";
+            else
+                query = "SELECT * FROM rates WHERE code = ?";
+                        
+            pStatement = connection.prepareStatement(query);
+            
+            hasResults = pStatement.execute();
+            
+            resultSet = pStatement.getResultSet();
+            
+            if(hasResults){
+                
+                while(resultSet.next()){
+                    
+                    String codee = resultSet.getString("code");
+                    Double rate = resultSet.getDouble("rates");
+                    
+                    rates.put(codee, rate);
+                    
+                }
+            }
+            
+            json.put("rates", rates);
+            json.put("date", "2019-09-30");
+            json.put("base", "USD");
+            
+            results = JSONValue.toJSONString(json);
+                
+            
+            
+            
+        }
+        
+        catch (SQLException e) {}
+        
+        if (connection != null) {
+            
+            try {
+                connection.close();
+            }
+            
+            catch (SQLException e) {}
+            
+        }
+        if (pStatement != null) {
+            
+            try {
+                pStatement.close();
+            }
+            
+            catch (SQLException e) {}
+            
+        }
+        if (resultSet != null) {
+            
+            try {
+                resultSet.close();
+            }
+            
+            catch (SQLException e) {}
+            
+        }
         
         
         
         
-        
-        
+        return results.trim();
+
     }
+        
+        
+        
     
 
 }
+    
+
