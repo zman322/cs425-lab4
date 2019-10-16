@@ -160,7 +160,7 @@ public class Rates {
         JSONObject json = new JSONObject();
         JSONObject rates = new JSONObject();
         String query;
-        String results = "";
+        String results = null;
         boolean hasResults;
         
         try {
@@ -204,35 +204,35 @@ public class Rates {
             
         }
         
-        catch (SQLException e) {}
+            catch (SQLException e) {}
         
         if (connection != null) {
-            
+          
             try {
                 connection.close();
-            }
+                }
             
             catch (SQLException e) {}
             
-        }
+            }
         if (pStatement != null) {
             
             try {
                 pStatement.close();
-            }
+                }
             
             catch (SQLException e) {}
             
-        }
+            }
         if (resultSet != null) {
             
             try {
                 resultSet.close();
-            }
+                }
             
             catch (SQLException e) {}
             
-        }
+            }
         
         
         

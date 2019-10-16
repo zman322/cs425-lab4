@@ -41,7 +41,7 @@ public class Latest extends HttpServlet {
         response.setContentType("text/json;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            String path = getServletContext().getRealPath(File.separator + Rates.RATE_FILENAME);
+            
             out.println(Rates.getRatesAsJson( request.getParameter("code")) );
         
         }
