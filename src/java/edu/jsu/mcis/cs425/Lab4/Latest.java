@@ -38,7 +38,10 @@ public class Latest extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, SQLException {
+        
         response.setContentType("text/json;charset=UTF-8");
+        String path = getServletContext().getRealPath(File.separator + Rates.RATE_FILENAME);
+        
         try (PrintWriter out = response.getWriter()) {
             
             

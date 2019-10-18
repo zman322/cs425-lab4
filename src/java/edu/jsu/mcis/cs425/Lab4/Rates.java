@@ -1,6 +1,7 @@
 package edu.jsu.mcis.cs425.Lab4;
 
 import com.opencsv.CSVReader;
+import com.mysql.cj.protocol.Resultset;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -154,13 +155,13 @@ public class Rates {
         Context envContext = null, initContext = null;
         DataSource ds = null;
         Connection connection = null;
-        PreparedStatement pStatement = null;
         ResultSet resultSet = null;
+        PreparedStatement pStatement = null;
         
         JSONObject json = new JSONObject();
         JSONObject rates = new JSONObject();
         String query;
-        String results = null;
+        String results = "";
         boolean hasResults;
         
         try {
@@ -169,19 +170,26 @@ public class Rates {
             initContext  = (Context)envContext.lookup("java:/comp/env");
             ds = (DataSource)initContext.lookup("jdbc/db_pool");
             connection = ds.getConnection();
-            
-            if (code == null)
+        }
+        catch (SQLException e) {}
+        
+        
+            if (code == null){
                 query = "SELECT * FROM rates";
-            else
+            }
+            else{
                 query = "SELECT * FROM rates WHERE code = ?";
-                        
+      
+            }
+           
             pStatement = connection.prepareStatement(query);
             
             hasResults = pStatement.execute();
             
-            resultSet = pStatement.getResultSet();
+            
             
             if(hasResults){
+                resultSet = pStatement.getResultSet();
                 
                 while(resultSet.next()){
                     
@@ -202,37 +210,17 @@ public class Rates {
             
             
             
-        }
         
-            catch (SQLException e) {}
         
-        if (connection != null) {
-          
-            try {
-                connection.close();
-                }
             
-            catch (SQLException e) {}
+        
+       
+            connection.close();
+               
+            pStatement.close();
             
-            }
-        if (pStatement != null) {
+            resultSet.close();
             
-            try {
-                pStatement.close();
-                }
-            
-            catch (SQLException e) {}
-            
-            }
-        if (resultSet != null) {
-            
-            try {
-                resultSet.close();
-                }
-            
-            catch (SQLException e) {}
-            
-            }
         
         
         
@@ -247,4 +235,3 @@ public class Rates {
 
 }
     
-
